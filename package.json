@@ -1,17 +1,23 @@
 {
   "name": "atn-utilities",
   "version": "1.0.0",
-  "description": "Utility bot for ATN Server.",
+  "description": "Utility bot for ATN Server",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "utility"
-  ],
-  "author": "NotReallyEight",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NotReallyEight/atn-utilities.git"
+  },
+  "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NotReallyEight/atn-utilities/issues"
+  },
+  "homepage": "https://github.com/NotReallyEight/atn-utilities#readme",
   "dependencies": {
-    "eris": "^0.15.1"
+    "eris": "^0.15.1",
+    "yuuko": "^2.2.1"
   }
 }
