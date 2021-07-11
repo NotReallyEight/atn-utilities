@@ -1,5 +1,6 @@
-const { Client } = require('yuuko')
-const config = require('./config')
+const { Client } = require('yuuko');
+const config = require('./config');
+const { extendClient } = require('./utils/ExtendedClient')
 
 const bot = new Client({
   token: config.token,
@@ -8,10 +9,12 @@ const bot = new Client({
   caseSensitiveCommands: false,
   caseSensitivePrefix: false,
   prefix: 'atn!'
-})
+});
 
-bot.addDir('events')
+bot.addDir('events');
 
-bot.addDir('commands')
+bot.addDir('commands');
 
-bot.connect()
+extendClient()
+
+bot.connect();
