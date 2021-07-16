@@ -20,6 +20,12 @@ module.exports.run = async (packet, client) => {
     partnership_ping_2: '808030891996741652'
   }
 
+  const genderRoles = {
+    male: '755124915430097076',
+    female: '755125098687758538',
+    others: '864144820724695040'
+  }
+
   let hasRoles = []
   for (pingRole in pingRoles) {
     if (member.roles.includes(pingRoles[pingRole])) {
@@ -43,6 +49,11 @@ module.exports.run = async (packet, client) => {
       style: member.roles.includes(pingRoles[Object.keys(pingRoles)[i]]) ? 1 : 2,
       label: `${nameStrings[0][0].toUpperCase()}${nameStrings[0].slice(1)} Ping`,
       custom_id: Object.keys(pingRoles)[i],
+      emoji: member.roles.includes(pingRoles[Object.keys(pingRoles)[i]]) ? {
+        name: 'zx_tick_yes',
+        animated: false,
+        id: '843780958943838218'
+      } : undefined,
     })
   }
   for (let i = 5; i < 9; i++) {
@@ -61,6 +72,11 @@ module.exports.run = async (packet, client) => {
         style: member.roles.includes(pingRoles[Object.keys(pingRoles)[i]]) ? 1 : 2,
         label: `${nameStrings[0][0].toUpperCase()}${nameStrings[0].slice(1)} Ping`,
         custom_id: Object.keys(pingRoles)[i],
+        emoji: member.roles.includes(pingRoles[Object.keys(pingRoles)[i]]) ? {
+          name: 'zx_tick_yes',
+          animated: false,
+          id: '843780958943838218'
+        } : undefined,
       })
     }
   }
@@ -86,8 +102,7 @@ module.exports.run = async (packet, client) => {
         ]
       }
     })
-  } else {
-    console.log(packet.d.data.custom_id)
+  } else if (packet.d.data.custom_id !== 'ping_autorole' && packet.d.data.custom_id !== 'gender_autorole') {
     if (!Object.keys(pingRoles).includes(packet.d.data.custom_id) && !packet.d.data.custom_id === 'remove_pings') return
     if (packet.d.data.custom_id === 'remove_pings') {
       const previousButton1 = pingsMsgComponents1;
@@ -123,7 +138,6 @@ module.exports.run = async (packet, client) => {
       for (role in pingRoles) {
         member.removeRole(pingRoles[role])
       }
-      console.log(pingsMsgComponents1)
     } else if (packet.d.data.custom_id.endsWith('1')) {
       const index = pingsMsgComponents1.map(e => e.custom_id).indexOf(packet.d.data.custom_id);
       const previousButton = pingsMsgComponents1[index]
@@ -131,7 +145,12 @@ module.exports.run = async (packet, client) => {
         type: 2,
         style: previousButton.style === 1 ? 2 : 1,
         label: previousButton.label,
-        custom_id: packet.d.data.custom_id
+        custom_id: packet.d.data.custom_id,
+        emoji: previousButton.style === 2 ? {
+          name: 'zx_tick_yes',
+          animated: false,
+          id: '843780958943838218'
+        } : undefined
       }
       if (previousButton.style == 1) {
         member.removeRole(pingRoles[packet.d.data.custom_id])
@@ -173,5 +192,19 @@ module.exports.run = async (packet, client) => {
         ]
       }
     })
+  } else if (packet.d.data.custom_id === 'gender_autorole') {
+    /**
+     * @type {string[]}
+     */
+    let genderRole = []
+    for (gender in genderRoles) {
+      if (member.roles.includes(genderRoles[gender])) {
+        genderRole.push('yay')
+      }
+    }
+    /**
+     * @type {typedefs.replyInteraction}
+     */
+    await client.replyInteraction()
   }
 }

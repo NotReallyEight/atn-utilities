@@ -68,16 +68,7 @@ const Eris = require('eris')
  * @property {1 | 2 | 3} type
  * @property {1 | 2 | 3 | 4 | 5} [style]
  * @property {string} [label]
- * @property {{
- * id: string,
- * name: string,
- * roles?: Role[],
- * user?: User,
- * require_colons?: boolean,
- * managed?: boolean,
- * animated?: boolean,
- * available?: boolean
- * }} [emoji]
+ * @property {PartialEmoji} [emoji]
  * @property {string} [custom_id]
  * @property {string} [url]
  * @property {boolean} [disabled]
@@ -111,6 +102,18 @@ const Eris = require('eris')
  * @property {number} [flags]
  * @property {0 | 1 | 2} [premium_type]
  * @property {number} [public_flags]
+ */
+
+/**
+ * @callback replyInteraction
+ * @param {string} interactionId
+ */
+
+/**
+ * @typedef PartialEmoji
+ * @property {string} name
+ * @property {string} id
+ * @property {boolean} [animated]
  */
 
 module.exports.unused = {}
