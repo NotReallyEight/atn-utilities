@@ -26,8 +26,8 @@ module.exports = new Command('rrc', (message, args, ctx) => {
             }, {
               type: 2,
               style: 3,
-              label: 'Gender Roles',
-              custom_id: 'gender_autorole',
+              label: 'Pronouns Roles',
+              custom_id: 'pronouns_autorole',
               disabled: false
             }
           ]

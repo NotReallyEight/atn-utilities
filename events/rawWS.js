@@ -3,6 +3,6 @@ const axios = require('axios')
 
 module.exports = new EventListener('rawWS', async (packet, id, ctx) => {
   if (packet.t === 'INTERACTION_CREATE' && packet.d.type === 3) {
-    require('../customEvents/buttonClick').run(packet, ctx.client)
+    require('../customEvents/componentInteraction').run(packet, ctx.client)
   }
 })

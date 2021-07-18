@@ -1,4 +1,4 @@
-const Eris = require('eris')
+const Eris = require('eris');
 
 /**
  * @typedef Packet
@@ -73,6 +73,10 @@ const Eris = require('eris')
  * @property {string} [url]
  * @property {boolean} [disabled]
  * @property {Component} [components]
+ * @property {SelectsOptions[]} [options]
+ * @property {string} [placeholder]
+ * @property {number} [min_values]
+ * @property {number} [max_values]
  */
 
 /**
@@ -114,6 +118,16 @@ const Eris = require('eris')
  * @property {string} name
  * @property {string} id
  * @property {boolean} [animated]
+ */
+
+
+/**
+ * @typedef SelectsOptions
+ * @property {string} label
+ * @property {string} value
+ * @property {string} [description]
+ * @property {PartialEmoji} [emoji]
+ * @property {boolean} [default]
  */
 
 module.exports.unused = {}
