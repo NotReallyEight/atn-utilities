@@ -29,6 +29,12 @@ module.exports = new Command('rrc', (message, args, ctx) => {
               label: 'Pronouns Roles',
               custom_id: 'pronouns_autorole',
               disabled: false
+            }, {
+              type: 2,
+              style: 1,
+              label: 'Other Roles',
+              custom_id: 'others_autorole',
+              disabled: false
             }
           ]
         }

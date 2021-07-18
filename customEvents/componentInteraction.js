@@ -40,6 +40,22 @@ module.exports.run = async (packet, client) => {
     */
    let pronounsSelects;
 
+   /**
+    * @type {typedefs.Component}
+    */
+   let otherAutorole = {
+    type: 2,
+    custom_id: 'anime_autorole',
+    disabled: false,
+    style: member.roles.includes('746778226801770496') ? 4 : 2,
+    label: 'Animesss',
+    emoji: member.roles.includes('746778226801770496') ? {
+      name: 'zx_tick_yes',
+      animated: false,
+      id: '843780958943838218'
+    } : undefined,
+   }
+
   let hasRoles = []
   for (pingRole in pingRoles) {
     let nameStrings = [pingRole.split('_')[0], pingRole.split('_')[1]]
@@ -143,8 +159,8 @@ module.exports.run = async (packet, client) => {
         ]
       }
     })
-  } else if (packet.d.data.custom_id !== 'ping_autorole' && packet.d.data.custom_id !== 'pronouns_autorole' && packet.d.data.custom_id !== 'pronoun_role_select') {
-    if (!Object.keys(pingRoles).includes(packet.d.data.custom_id) && !packet.d.data.custom_id === 'remove_pings') return
+  } else if (packet.d.data.custom_id !== 'ping_autorole' && packet.d.data.custom_id !== 'pronouns_autorole' && packet.d.data.custom_id !== 'pronoun_role_select' && packet.d.data.custom_id !== 'others_autorole') {
+    if (!Object.keys(pingRoles).includes(packet.d.data.custom_id) && !packet.d.data.custom_id === 'remove_pings' && !packet.d.data.custom_id === 'anime_autorole') return
     if (packet.d.data.custom_id === 'remove_pings') {
       const previousButton1 = pingsMsgComponents1;
       const previousButton2 = pingsMsgComponents2;
@@ -199,6 +215,55 @@ module.exports.run = async (packet, client) => {
         member.removeRole(pingRoles[packet.d.data.custom_id])
       } else {
         member.addRole(pingRoles[packet.d.data.custom_id])
+      }
+    } else if (packet.d.data.custom_id === 'anime_autorole') {
+      if (member.roles.includes('746778226801770496')) {
+        otherAutorole.style = 2
+        otherAutorole.emoji = undefined
+        member.removeRole('746778226801770496')
+        
+        client.replyInteraction(packet.d.id, packet.d.token, {
+          type: 7,
+          token: client.token,
+          data: {
+            content: 'Click below to add/remove the Anime role!',
+            flags: 64,
+            components: [
+              {
+                type: 1,
+                components: [
+                  otherAutorole
+                ]
+              }
+            ]
+          }
+        })
+        return
+      } else {
+        otherAutorole.style = 4
+        otherAutorole.emoji = {
+          name: 'zx_tick_yes',
+          animated: false,
+          id: '843780958943838218'
+        }
+        member.addRole('746778226801770496')
+        client.replyInteraction(packet.d.id, packet.d.token, {
+          type: 7,
+          token: client.token,
+          data: {
+            content: 'Click below to add/remove the Anime role!',
+            flags: 64,
+            components: [
+              {
+                type: 1,
+                components: [
+                  otherAutorole
+                ]
+              }
+            ]
+          }
+        })
+        return
       }
     } else {
       const index = pingsMsgComponents2.map(e => e.custom_id).indexOf(packet.d.data.custom_id);
@@ -307,6 +372,23 @@ module.exports.run = async (packet, client) => {
             type: 1,
             components: [
               pronounsSelects
+            ]
+          }
+        ]
+      }
+    })
+  } else if (packet.d.data.custom_id === 'others_autorole') {
+    await client.replyInteraction(packet.d.id, packet.d.token, {
+      type: 4,
+      token: client.token,
+      data: {
+        content: 'Click below to add/remove the Anime role!',
+        flags: 64,
+        components: [
+          {
+            type: 1,
+            components: [
+              otherAutorole
             ]
           }
         ]
