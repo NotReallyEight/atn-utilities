@@ -17,4 +17,9 @@ bot.addDir('commands');
 
 extendClient()
 
+bot.editStatus('online', {
+  name: 'https://notreallyeight.tk/discord',
+  type: 3
+})
+
 bot.connect();
