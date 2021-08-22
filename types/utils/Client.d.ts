@@ -15,6 +15,31 @@ export interface CreateSlashCommandOptions {
     options?: ApplicationCommandOptions[];
     default_permission?: boolean;
 }
+export interface SelectOption {
+    label: string;
+    value: string;
+    description?: string;
+    emoji?: Eris.PartialEmoji;
+    default?: boolean;
+}
+export interface MessageComponent {
+    type: 1 | 2 | 3;
+    custom_id?: string;
+    disabled?: boolean;
+    style?: 1 | 2 | 3 | 4 | 5;
+    label?: string;
+    emoji?: Eris.PartialEmoji;
+    url?: string;
+    options?: SelectOption[];
+    placeholder?: string;
+    min_values?: number;
+    max_values?: number;
+    components?: MessageComponent[];
+}
+export interface NewMessageContent extends Eris.AdvancedMessageContent {
+    components?: MessageComponent[];
+    embeds?: Eris.EmbedOptions[];
+}
 export declare class Client extends Eris.Client {
     token: string;
     prefix: string;
@@ -22,6 +47,7 @@ export declare class Client extends Eris.Client {
     slashCommands: SlashCommand[];
     componentEvents: ComponentEvent[];
     logger: Logger;
+    defaultMentions?: Eris.AllowedMentions;
     constructor(options: ClientOptions);
     mentionPrefixRegExp(): RegExp;
     addEvents(path: string): this;
@@ -38,4 +64,5 @@ export declare class Client extends Eris.Client {
     wait(milliseconds: number): Promise<unknown>;
     addComponentEvents(path: string): Promise<this>;
     getSlashCommands(): Promise<CreateSlashCommandOptions[] | void>;
+    newCreateMessage(channelID: string, content: string | NewMessageContent): Promise<Eris.Message | void>;
 }

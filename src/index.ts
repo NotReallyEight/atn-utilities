@@ -23,7 +23,7 @@ client.addInteractionEvents(
 
 // client.addComponentEvents(path.join(__dirname, "events", "componentEvents"));
 
-// client.addCommands(path.join(__dirname, "commands", "textCommands"));
+client.addCommands(path.join(__dirname, "commands", "textCommands"));
 
 client.addSlashCommands(path.join(__dirname, "commands", "slashCommands"));
 

@@ -14,4 +14,8 @@ export class Logger {
   info(message: string): void {
     console.log(chalk.grey("[INFO] ") + message);
   }
+
+  warn(message: string): void {
+    console.log(chalk.yellow("[WARN] " + message));
+  }
 }

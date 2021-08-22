@@ -24,6 +24,34 @@ export interface CreateSlashCommandOptions {
   default_permission?: boolean;
 }
 
+export interface SelectOption {
+  label: string;
+  value: string;
+  description?: string;
+  emoji?: Eris.PartialEmoji;
+  default?: boolean;
+}
+
+export interface MessageComponent {
+  type: 1 | 2 | 3;
+  custom_id?: string;
+  disabled?: boolean;
+  style?: 1 | 2 | 3 | 4 | 5;
+  label?: string;
+  emoji?: Eris.PartialEmoji;
+  url?: string;
+  options?: SelectOption[];
+  placeholder?: string;
+  min_values?: number;
+  max_values?: number;
+  components?: MessageComponent[];
+}
+
+export interface NewMessageContent extends Eris.AdvancedMessageContent {
+  components?: MessageComponent[];
+  embeds?: Eris.EmbedOptions[];
+}
+
 export class Client extends Eris.Client {
   token: string;
   prefix: string;
@@ -31,11 +59,13 @@ export class Client extends Eris.Client {
   slashCommands: SlashCommand[] = [];
   componentEvents: ComponentEvent[] = [];
   logger: Logger;
+  defaultMentions?: Eris.AllowedMentions;
   constructor(options: ClientOptions) {
     super(options.token, options);
     this.token = options.token;
     this.prefix = options.prefix;
     this.logger = new Logger(this);
+    this.defaultMentions = options.allowedMentions;
   }
 
   mentionPrefixRegExp() {
@@ -356,6 +386,91 @@ export class Client extends Eris.Client {
       return commands;
     } catch (err: any) {
       console.log("Error: ", err.message);
+    }
+  }
+
+  async newCreateMessage(
+    channelID: string,
+    content: string | NewMessageContent
+  ): Promise<Eris.Message | void> {
+    if (!content) {
+      return this.logger.error("No content, file, or embeds.");
+    }
+
+    if (typeof content === "object") {
+      if (content.embed) {
+        this.logger.warn(
+          "content.embed is deprecated, you may want to use content.embeds instead."
+        );
+        (content.embed as any).type = 'rich'
+        content.embeds = [content.embed];
+      }
+
+      let messageReference: any;
+
+      if (content.messageReferenceID) {
+        this.logger.warn(
+          "content.messageReferenceID is deprecated, please use content.messageReference instead."
+        );
+        messageReference.message_id = content.messageReferenceID;
+      } else if (content.messageReference) {
+        if (content.messageReference.channelID) {
+          messageReference.channel_id = content.messageReference.channelID;
+        }
+
+        if (content.messageReference.failIfNotExists) {
+          messageReference.fail_if_not_exists =
+            content.messageReference.failIfNotExists;
+        }
+
+        if (content.messageReference.guildID) {
+          messageReference.guild_id = content.messageReference.guildID;
+        }
+
+        if (content.messageReference.messageID) {
+          messageReference.message_id = content.messageReference.messageID;
+        }
+      }
+
+      content.embeds?.forEach(e => (e as any).type = 'rich');
+
+      const result = await axios({
+        method: "POST",
+        url: `https://discord.com/api/v9/channels/${channelID}/messages`,
+        data: {
+          content: content.content,
+          tts: content.tts ? content.tts : undefined,
+          embeds: content.embeds ? content.embeds : undefined,
+          allowed_mentions: content.allowedMentions
+            ? content.allowedMentions
+            : this.defaultMentions,
+          message_reference: messageReference ? messageReference : undefined,
+          components: content.components ? content.components : undefined,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: this.token.startsWith("Bot")
+            ? this.token
+            : `Bot ${this.token}`,
+        },
+      });
+      return new Eris.Message(result.data, this);
+    } else {
+      const result = await axios({
+        method: "POST",
+        url: `https://discord.com/api/v9/channels/${channelID}/messages`,
+        data: {
+          content: content,
+          allowed_mentions: this.defaultMentions,
+        },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: this.token.startsWith("Bot")
+            ? this.token
+            : `Bot ${this.token}`,
+        },
+      });
+      return new Eris.Message(result.data, this);
     }
   }
 }
