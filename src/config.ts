@@ -1,4 +1,8 @@
+import { config } from "dotenv";
+
+config();
+
 export default {
-  GuildID: "Guild ID here",
-  Token: "Token here",
+  GuildID: process.env.GUILD_ID!,
+  Token: process.env.TOKEN!,
 };
