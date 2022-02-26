@@ -402,7 +402,7 @@ export class Client extends Eris.Client {
         this.logger.warn(
           "content.embed is deprecated, you may want to use content.embeds instead."
         );
-        (content.embed as any).type = 'rich'
+        (content.embed as any).type = "rich";
         content.embeds = [content.embed];
       }
 
@@ -432,7 +432,7 @@ export class Client extends Eris.Client {
         }
       }
 
-      content.embeds?.forEach(e => (e as any).type = 'rich');
+      content.embeds?.forEach((e) => ((e as any).type = "rich"));
 
       const result = await axios({
         method: "POST",

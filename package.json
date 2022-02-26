@@ -6,9 +6,12 @@
   "scripts": {
     "build": "npm run delete && npm run compile",
     "compile": "tsc",
-    "test": "tsc --noEmit",
+    "test": "eslint && tsc --noEmit && npm run prettier",
     "delete": "rm -rf ./dist",
-    "start": "npm run build && node --enable-source-maps ."
+    "start": "npm run build && node --enable-source-maps .",
+    "lint": "eslint src --fix",
+    "prepare": "npm test",
+    "prettier": "prettier --write src/**/*.ts"
   },
   "repository": {
     "type": "git",
@@ -31,6 +34,9 @@
   "devDependencies": {
     "@tsconfig/node16": "^1.0.2",
     "@types/node": "^16.11.25",
+    "eslint": "^8.10.0",
+    "eslint-plugin-node": "^11.1.0",
+    "prettier": "^2.5.1",
     "typescript": "^4.5.5"
   }
 }
