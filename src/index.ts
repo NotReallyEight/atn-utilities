@@ -1,6 +1,9 @@
 import { Client } from "./utils/Client";
 import config from "./config";
 import path from "path";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const client = new Client({
   prefix: "atn!",
