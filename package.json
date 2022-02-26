@@ -4,9 +4,9 @@
   "description": "Utility bot for ATN Server",
   "main": "dist/index.js",
   "scripts": {
-    "compile": "npx tsc",
+    "compile": "tsc",
     "test": "node .",
-    "delete": "npx rimraf ./dist",
+    "delete": "rimraf ./dist",
     "start": "npm run delete && npm run compile && npm install && npm run test"
   },
   "repository": {
@@ -20,15 +20,16 @@
   },
   "homepage": "https://github.com/NotReallyEight/atn-utilities#readme",
   "dependencies": {
-    "@types/node": "^16.4.11",
     "axios": "^0.21.1",
     "chalk": "^4.1.2",
     "eris": "^0.15.1",
-    "rimraf": "^3.0.2",
     "tslib": "^2.3.1",
     "yuuko": "^2.2.1"
   },
   "devDependencies": {
-    "@tsconfig/node16": "^1.0.2"
+    "@tsconfig/node16": "^1.0.2",
+    "@types/node": "^16.11.25",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.5.5"
   }
 }
