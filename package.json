@@ -5,9 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "compile": "tsc",
-    "test": "node .",
-    "delete": "rimraf ./dist",
-    "start": "npm run delete && npm run compile && npm install && npm run test"
+    "test": "tsc --noEmit",
+    "delete": "rm -rf ./dist",
+    "start": "npm run delete && npm run compile && npm install && node --enable-source-maps ."
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,6 @@
   "devDependencies": {
     "@tsconfig/node16": "^1.0.2",
     "@types/node": "^16.11.25",
-    "rimraf": "^3.0.2",
     "typescript": "^4.5.5"
   }
 }
