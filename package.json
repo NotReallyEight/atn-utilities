@@ -4,10 +4,11 @@
   "description": "Utility bot for ATN Server",
   "main": "dist/index.js",
   "scripts": {
+    "build": "npm run delete && npm run compile",
     "compile": "tsc",
     "test": "tsc --noEmit",
     "delete": "rm -rf ./dist",
-    "start": "npm run delete && npm run compile && npm install && node --enable-source-maps ."
+    "start": "npm run build && node --enable-source-maps ."
   },
   "repository": {
     "type": "git",
