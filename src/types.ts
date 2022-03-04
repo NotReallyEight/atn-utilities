@@ -1,4 +1,5 @@
 import type Eris from "eris";
+import type { ComponentInteraction } from "eris";
 import type { Client } from "./utils";
 
 /**
@@ -63,6 +64,50 @@ export interface CommandRequirements {
 	custom?: (
 		message: Eris.Message,
 		args: string[],
+		client: Client
+	) => Promise<boolean> | boolean;
+}
+
+/**
+ * The function to be called when a component event is triggered
+ * @param interaction - The interaction of the component event
+ * @param client - The client instance
+ */
+export type ComponentEventFn = (
+	interaction: ComponentInteraction,
+	client: Client
+) => Promise<void> | void;
+
+/**
+ * The options of a component event
+ */
+export interface ComponentEventOptions {
+	/**
+	 * The function to be called when the component event is triggered
+	 */
+	fn: ComponentEventFn;
+	/**
+	 * The custom ID of the component
+	 */
+	id: string;
+	/**
+	 * The requirements to be fulfilled before running the component event function
+	 */
+	requirements?: ComponentEventRequirements;
+}
+
+/**
+ * The requirements to be fulfilled before running the component event function
+ */
+export interface ComponentEventRequirements {
+	/**
+	 * A custom component event requirement
+	 * @param interaction - The interaction of the component event
+	 * @param client - The client instance
+	 * @returns Whether the requirement is fulfilled
+	 */
+	custom?: (
+		interaction: ComponentInteraction,
 		client: Client
 	) => Promise<boolean> | boolean;
 }
